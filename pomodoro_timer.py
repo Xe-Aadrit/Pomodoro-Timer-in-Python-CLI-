@@ -3,7 +3,9 @@ Pomodoro Timer CLI with cross-platform sound notifications.
 """
 
 import time
+
 import pygame
+
 
 def beep():
     """Plays a short beep sound at the start or end of a session."""
