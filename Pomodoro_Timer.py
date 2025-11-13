@@ -1,23 +1,22 @@
+"""
+Pomodoro Timer CLI with cross-platform sound notifications.
+"""
+
 import time
 import pygame
 
-"""
-Plays a short beep sound once at the start or end of a session.
-
-Initializes the mixer locally to prevent errors on systems without audio drivers.
-If the sound cannot be played, a message is printed instead of crashing the program.
-"""
 def beep():
+    """Plays a short beep sound at the start or end of a session."""
     try:
         pygame.mixer.init()
         sound = pygame.mixer.Sound("Pomodoro-Timer-in-Python-CLI-/beep.wav")
         sound.play()
         pygame.time.wait(int(sound.get_length() * 1000))
-    except Exception as e:
+    except pygame.error as e:
         print(f"(Beep skipped: {e})")
 
-#  Handles the countdown for both work and break sessions
 def countdown(mins, label):
+    """Handles the countdown for both work and break sessions"""
     print(f"\n{label.upper()} TIME STARTS.\n")
     time.sleep(1)
     seconds = 0
@@ -36,15 +35,15 @@ def countdown(mins, label):
             break
         time.sleep(1)
 
-# Add a 5-second delay between work and break sessions
 def transition(next_label):
+    """Add a 5-second delay between work and break sessions"""
     print(f"{next_label.upper()} TIME STARTS IN 5 SECONDS")
     for i in range(5, 0, -1):
         print(f" 00:0{i}", end = "\r", flush = True)
         time.sleep(1)       
 
-# Control flow of the Pomodoro Timer
 def main():
+    """Control flow of the Pomodoro Timer"""
     print("\n------- POMODORO TIMER -------\n")
     try:
         work_mins = int(input("Enter work minutes: "))
@@ -62,7 +61,11 @@ def main():
             rounds -=1
 
         # Display the final stats
-        print(f"Total Productive Time: {copy*work_mins} minutes, Total Break Time: {copy*break_mins} minutes, Rounds: {copy}")
+        print(
+            f"Total Productive Time: {copy*work_mins} minutes, "
+            f"Total Break Time: {copy*break_mins} minutes, "
+            f"Rounds: {copy}"
+            )
         beep()
         print("Pomodoro Ended!\n----------------------------")
     except ValueError:
